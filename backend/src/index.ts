@@ -11,49 +11,11 @@ import schema from "./schema";
 
 dotenv.config();
 
-const typeDefs = gql`
-  type User {
-    id: ID
-    userId: String
-  }
-
-  type Query {
-    users: [User]
-  }
-
-  type Mutation {
-    addUser: Boolean!
-  }
-`;
-
-let userArr: Object[] = [];
-
-const resolvers = {
-  Query: {
-    users: async () => {
-      return userArr;
-    },
-  },
-  Mutation: {
-    addUser: async () => {
-      const obj = {
-        id: userArr.length + 1,
-        userId: "myUserId",
-      };
-
-      userArr.push(obj);
-
-      return true;
-    },
-  },
-};
-
 const startServer = async () => {
   const server: ApolloServer = new ApolloServer({
-    typeDefs,
-    resolvers,
+    schema,
     context: async (expressContext) => {
-      console.log(expressContext);
+      const { req } = expressContext;
     },
   });
 
