@@ -1,7 +1,7 @@
 ```
 docker rm -f postgres-container
 
-docker run -d --name postgres-container -e POSTGRES_PASSWORD=1234 -p 5432:5432
+docker run -d --name postgres-container -e POSTGRES_PASSWORD=1234 -p 5432:5432 postgres
 
 psql -U postgres
 

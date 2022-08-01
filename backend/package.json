@@ -6,6 +6,7 @@
   "scripts": {
     "start": "tsc-watch --onSuccess \"nodemon ./dist/index.js\"",
     "mig": "npx prisma migrate dev",
+    "studio": "npx prisma studio",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
