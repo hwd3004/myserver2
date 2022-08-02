@@ -27,8 +27,27 @@ model Post {
   title     String   @db.VarChar(255)
   createdAt DateTime @default(now()) @db.Timestamp(6)
   updatedAt DateTime @updatedAt
-  content   String
+  content   String   @db.Text
   published Boolean  @default(false)
-  authorId  Int
-  User      User     @relation(fields: [authorId], references: [id])
+
+  authorId Int
+  User     User @relation(fields: [authorId], references: [id])
+
+  Comment Comment[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String   @db.Text
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  updatedAt DateTime @updatedAt
+
+  postId Int
+  Post   Post @relation(fields: [postId], references: [id])
+}
+
+model Attachment {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  updatedAt DateTime @updatedAt
 }
