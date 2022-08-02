@@ -35,7 +35,7 @@ export default {
           };
         }
 
-        const checkUserId = await prisma.user.findFirst({
+        const checkUserId = await prisma.user.findUnique({
           where: {
             userId,
           },
@@ -45,7 +45,7 @@ export default {
           return { result: false, error: "Id is already exists." };
         }
 
-        const checkUserName = await prisma.user.findFirst({
+        const checkUserName = await prisma.user.findUnique({
           where: {
             userName,
           },
@@ -55,7 +55,7 @@ export default {
           return { result: false, error: "username is already exists." };
         }
 
-        const checkEmail = await prisma.user.findFirst({
+        const checkEmail = await prisma.user.findUnique({
           where: {
             email,
           },
