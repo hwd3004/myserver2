@@ -11,7 +11,8 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  // id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid()) @db.Uuid
   userId    String   @unique @db.VarChar(30)
   userName  String   @unique @db.VarChar(30)
   password  String
@@ -30,8 +31,9 @@ model Post {
   content   String   @db.Text
   published Boolean  @default(false)
 
-  authorId Int
-  User     User @relation(fields: [authorId], references: [id])
+  // authorId Int
+  authorId String
+  User     User   @relation(fields: [authorId], references: [id])
 
   Comment Comment[]
 }
