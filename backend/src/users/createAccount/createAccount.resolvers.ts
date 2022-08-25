@@ -1,5 +1,6 @@
 import prisma from "../../prisma";
 import bcrypt from "bcrypt";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 
 export default {
   Mutation: {
@@ -35,35 +36,35 @@ export default {
           };
         }
 
-        const checkUserId = await prisma.user.findUnique({
-          where: {
-            userId,
-          },
-        });
+        // const checkUserId = await prisma.user.findUnique({
+        //   where: {
+        //     userId,
+        //   },
+        // });
 
-        if (checkUserId) {
-          return { result: false, error: "Id is already exists." };
-        }
+        // if (checkUserId) {
+        //   return { result: false, error: "Id is already exists." };
+        // }
 
-        const checkUserName = await prisma.user.findUnique({
-          where: {
-            userName,
-          },
-        });
+        // const checkUserName = await prisma.user.findUnique({
+        //   where: {
+        //     userName,
+        //   },
+        // });
 
-        if (checkUserName) {
-          return { result: false, error: "username is already exists." };
-        }
+        // if (checkUserName) {
+        //   return { result: false, error: "username is already exists." };
+        // }
 
-        const checkEmail = await prisma.user.findUnique({
-          where: {
-            email,
-          },
-        });
+        // const checkEmail = await prisma.user.findUnique({
+        //   where: {
+        //     email,
+        //   },
+        // });
 
-        if (checkEmail) {
-          return { result: false, error: "email is already exists." };
-        }
+        // if (checkEmail) {
+        //   return { result: false, error: "email is already exists." };
+        // }
 
         const hashPassword = await bcrypt.hash(password, 10);
 
@@ -80,6 +81,23 @@ export default {
           result: true,
         };
       } catch (error) {
+        // https://www.prisma.io/docs/reference/api-reference/error-reference
+        // https://www.prisma.io/docs/concepts/components/prisma-client/handling-exceptions-and-errors
+
+        const errorMsgObj = {
+          userId: "id 중복",
+          userName: "사용자 이름 중복",
+          email: "이메일 중복",
+        };
+
+        if (error instanceof PrismaClientKnownRequestError) {
+          if (error.code == "P2002") {
+            const target = error.meta.target as any;
+
+            
+          }
+        }
+
         return {
           result: false,
           // error: "can't create account.",
